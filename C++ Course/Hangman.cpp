@@ -2,15 +2,18 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <fstream>
+#include <ctime>
+#include <cstdlib>
 using namespace std;
 
-const string SECRET_WORD = "APPLE";
+string secret_word;
 map <char, bool> tried;
 vector <char> wrong_guess;
 
 
 bool letter_in(char guess) {
-    for (char word : SECRET_WORD) {
+    for (char word : secret_word) {
         if (guess == word) {
             return true;
         }
@@ -19,7 +22,7 @@ bool letter_in(char guess) {
 }
 
 bool wrong () {
-    for (char word : SECRET_WORD) {
+    for (char word : secret_word) {
         if (!tried[word]) {
             return true;
         }
@@ -37,6 +40,7 @@ void header () {
     cout << "**************************" << endl;
     cout << endl;
     cout << "Say your guess to the secret word!" << endl;
+    cout << "The hint is: It is a fruit." << endl;
 }
 
 void print_wguesses () {
@@ -48,7 +52,7 @@ void print_wguesses () {
 }
 
 void print_word () {
-    for (char word : SECRET_WORD) {
+    for (char word : secret_word) {
         if (tried[word]) {
         cout << word << "";
         } else {
@@ -74,8 +78,37 @@ void tries () {
     cout << endl;
 }
 
+vector <string> read_file () {
+    ifstream file;
+    file.open("Hangman_Words.txt");
+
+    int number_words;
+    file >> number_words;
+
+    vector <string> words_of_file;
+
+    for (int i = 0; i < number_words; i++) {
+        string red_word;
+        file >> red_word;
+
+        words_of_file.push_back(red_word);
+    }
+    return words_of_file;
+}
+
+void prize_draw () {
+    vector <string> words = read_file();
+
+    srand(time(NULL));
+    int index = rand() % words.size();
+
+    secret_word = words[index];
+}
+
 int main () {
     header();
+
+    prize_draw();
 
     while (wrong() && live()) {
         print_wguesses();
@@ -86,7 +119,7 @@ int main () {
     }
 
     cout << "End Game!" << endl;
-    cout << "The right word is " << SECRET_WORD << endl;
+    cout << "The right word is " << secret_word << endl;
     if (wrong()) {
         cout << "You lost, try it again!" << endl;
     } else {
