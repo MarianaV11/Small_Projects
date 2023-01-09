@@ -4,7 +4,7 @@
 #include <vector>
 using namespace std;
 
-const string SECRET_WORD = "MELANCIA";
+const string SECRET_WORD = "APPLE";
 map <char, bool> tried;
 vector <char> wrong_guess;
 
@@ -69,5 +69,13 @@ int main () {
             wrong_guess.push_back(guess);
         }
         cout << endl;
+    }
+
+    cout << "End Game!" << endl;
+    cout << "The right word is " << SECRET_WORD << endl;
+    if (wrong()) {
+        cout << "You lost, Try it again!" << endl;
+    } else {
+        cout << "Congratulations! You got the right word!" << endl;
     }
 }
