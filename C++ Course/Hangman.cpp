@@ -82,18 +82,25 @@ vector <string> read_file () {
     ifstream file;
     file.open("Hangman_Words.txt");
 
-    int number_words;
-    file >> number_words;
+    if (file.is_open()) {
+        int number_words;
+        file >> number_words;
 
-    vector <string> words_of_file;
+        vector <string> words_of_file;
 
-    for (int i = 0; i < number_words; i++) {
-        string red_word;
-        file >> red_word;
+        for (int i = 0; i < number_words; i++) {
+            string red_word;
+            file >> red_word;
 
-        words_of_file.push_back(red_word);
+            words_of_file.push_back(red_word);
+        }
+
+        file.close();
+        return words_of_file;       
+    } else {
+        cout << "Unable to access the word bank." << endl;
+        exit(0);
     }
-    return words_of_file;
 }
 
 void prize_draw () {
@@ -103,6 +110,35 @@ void prize_draw () {
     int index = rand() % words.size();
 
     secret_word = words[index];
+}
+
+void save_file (vector <string> new_list) {
+    ofstream file;
+    file.open("Hangman_Words.txt");
+
+    if (file.is_open()) {
+        file << new_list.size() << endl;
+
+        for (string word : new_list) {
+            file << word << endl;
+        }
+
+        file.close();
+    } else {
+        cout << "Unable to access the word bank." << endl;
+        exit(0);
+    }
+}
+
+void add_word () {
+    cout << "Write the new word in capital letters." << endl;
+    string new_word;
+    cin >> new_word;
+
+    vector <string> list_of_words = read_file();
+    list_of_words.push_back(new_word);
+
+    save_file(list_of_words);
 }
 
 int main () {
@@ -124,5 +160,12 @@ int main () {
         cout << "You lost, try it again!" << endl;
     } else {
         cout << "Congratulations! You got the right word!" << endl;
+        cout << "Do you want to add a new word to the word bank?" << endl;
+        char answer;
+        cin >> answer;
+
+        if (answer == 'YES') {
+            add_word();
+        }
     }
 }
