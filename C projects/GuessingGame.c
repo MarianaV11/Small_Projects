@@ -10,7 +10,6 @@ int main () {
     int number_of_try;
     printf("Choose between EASY(1), MEDIUM(2) and HARD(3).\n");
     scanf("%d", &number_of_try);
-
     switch (number_of_try) {
         case 1:
             number_of_try = 10;
@@ -43,6 +42,7 @@ int main () {
         if (guess < 0) {
             printf("You can't guess negative numbers.\n");
             i--;
+            continue;
         }
 
         int right = (guess == secret_number);
