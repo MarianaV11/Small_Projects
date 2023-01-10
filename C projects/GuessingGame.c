@@ -5,23 +5,27 @@
 int main () {
     printf("******************************\n");
     printf("*Welcome to the Guessing Game*\n");
-    printf("******************************\n");
+    printf("******************************\n\n");
 
     int number_of_try;
     printf("Choose between EASY(1), MEDIUM(2) and HARD(3).\n");
     scanf("%d", &number_of_try);
 
-    if (number_of_try == 1) {
-        number_of_try = 10;
-    } else if (number_of_try == 2) {
-        number_of_try = 5;
-    } else {
-        number_of_try = 3;
+    switch (number_of_try) {
+        case 1:
+            number_of_try = 10;
+            break;
+        case 2:
+            number_of_try = 5;
+            break;
+        default:
+            number_of_try = 3;
+            break;
     }
+    printf("Your number of attempts is %d.\n", number_of_try);
 
     srand(time(0));
     int secret_number = rand() % 100;
-    printf("%d\n",secret_number);
 
     int guess;
     int tries = 1;
@@ -60,6 +64,14 @@ int main () {
         score = score - lost_score;
     }
 
+
     printf("End game!\n");
     printf("Score: %.2f \n", score);
+    if (guess != secret_number) {
+        printf("You lost, try it again. The secret number was %d.\n\n", secret_number);
+        printf("       \\|/ ____ \\|/    \n");
+        printf("        @~/ ,. \\~@      \n");
+        printf("       /_( \\__/ )_\\    \n");
+        printf("          \\__U_/        \n\n");
+    }
 }
