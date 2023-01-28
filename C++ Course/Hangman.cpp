@@ -164,7 +164,7 @@ int main () {
         char answer;
         cin >> answer;
 
-        if (answer == 'YES') {
+        if (answer == wrong()) {
             add_word();
         }
     }
